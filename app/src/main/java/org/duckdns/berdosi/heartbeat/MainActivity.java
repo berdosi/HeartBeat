@@ -1,11 +1,9 @@
 package org.duckdns.berdosi.heartbeat;
 
 import android.Manifest;
+import android.graphics.Canvas;
 import android.graphics.SurfaceTexture;
 import android.os.Bundle;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -20,9 +18,19 @@ import android.view.MenuItem;
 public class MainActivity extends AppCompatActivity {
     private final PulseMeasurer measurer = new PulseMeasurer(this);
 
+    private Canvas chartCanvas;
+
+    private OutputAnalyzer analyzer = new OutputAnalyzer(this, chartCanvas);
+
     @Override
     protected void onResume() {
         super.onResume();
+
+        chartCanvas = ((TextureView) findViewById(R.id.textureView)).lockCanvas();
+
+        analyzer  = new OutputAnalyzer(this, chartCanvas);
+
+
         TextureView textureView = findViewById(R.id.textureView2);
 
         SurfaceTexture previewSurfaceTexture = textureView.getSurfaceTexture();
@@ -32,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
             measurer.start(previewSurface);
 
-            measurer.measurePulse(textureView);
+            analyzer.measurePulse(textureView);
         }
     }
 
@@ -40,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         measurer.stop();
+        analyzer.stop();
+        analyzer  = new OutputAnalyzer(this, chartCanvas);
     }
 
     @Override
@@ -48,11 +58,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(
-                view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show());
 
         int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 1;
         ActivityCompat.requestPermissions(this,

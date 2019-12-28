@@ -18,18 +18,29 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.14"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="73dp"
+            android:layout_gravity="center_vertical"
+            android:gravity="fill_vertical"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textIsSelectable="false" />
 
         <TextureView
             android:id="@+id/textureView2"
             android:layout_width="32dp"
             android:layout_height="32dp" />
+
+        <TextureView
+            android:id="@+id/textureView"
+            android:layout_width="match_parent"
+            android:layout_height="59dp" />
 
         <EditText
             android:id="@+id/editText"

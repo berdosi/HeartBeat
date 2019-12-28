@@ -2,12 +2,11 @@ package org.duckdns.berdosi.heartbeat;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 class MeasureStore {
-    private final List<Measurement<Integer>> measurements = new ArrayList<>();
-    private int minimum =  2147483647;
-    private int maximum =  -2147483648;
+    private final ArrayList<Measurement<Integer>> measurements = new ArrayList<>();
+    private int minimum = 2147483647;
+    private int maximum = -2147483648;
     private int count = 0;
     private float average = 0;
 
@@ -30,10 +29,22 @@ class MeasureStore {
             Measurement<Float> stdValue =
                     new Measurement<>(
                             measurement.timestamp,
-                            (measurement.measurement - average) / (float)((maximum - minimum) / 2));
+                            (measurement.measurement - average) / (float) ((maximum - minimum) / 2));
             stdValues.add(stdValue);
         }
 
         return stdValues;
+    }
+
+    ArrayList<Measurement<Integer>> getLastStdValues(int count) {
+        if (count < measurements.size()) {
+            return  new ArrayList<>(measurements.subList(measurements.size() - 1 - count, measurements.size() - 1));
+        } else {
+            return measurements;
+        }
+    }
+
+    Date getLastTimestamp() {
+        return measurements.get(measurements.size() - 1).timestamp;
     }
 }
