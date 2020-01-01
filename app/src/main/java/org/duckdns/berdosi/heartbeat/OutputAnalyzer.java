@@ -9,10 +9,10 @@ import android.view.TextureView;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import org.apache.commons.math3.complex.Complex;
-import org.apache.commons.math3.transform.DftNormalization;
-import org.apache.commons.math3.transform.FastFourierTransformer;
-import org.apache.commons.math3.transform.TransformType;
+// import org.apache.commons.math3.complex.Complex;
+// import org.apache.commons.math3.transform.DftNormalization;
+// import org.apache.commons.math3.transform.FastFourierTransformer;
+// import org.apache.commons.math3.transform.TransformType;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -25,7 +25,7 @@ class OutputAnalyzer {
 
     private final int measurementInterval = 50;
     private final int measurementLength = 15000; // ensure the number of data points is the power of two
-    private final int clipLength = 5000;
+    private final int clipLength = 3500;
     private final float dropHeight = 0.15f;
 
     private int detectedValleys = 0;
@@ -155,7 +155,7 @@ class OutputAnalyzer {
 
                 // building a double[] could help if Fourier transformation worked.
                 // FFT requires its length to be a power of two.
-                double[] stdValuesDoubleArray = new double[(int) Math.pow(2, Math.ceil(Math.log(stdValues.size()) / Math.log(2)))];
+                // double[] stdValuesDoubleArray = new double[(int) Math.pow(2, Math.ceil(Math.log(stdValues.size()) / Math.log(2)))];
 
 
                 int doubleArrayIndex = 0;
@@ -167,7 +167,7 @@ class OutputAnalyzer {
                     returnValueSb.append(value.measurement);
                     returnValueSb.append(activity.getString(R.string.row_separator));
 
-                    stdValuesDoubleArray[doubleArrayIndex++] = (double) value.measurement;
+                    // stdValuesDoubleArray[doubleArrayIndex++] = (double) value.measurement;
                     // });
                 }
 
@@ -181,16 +181,15 @@ class OutputAnalyzer {
                 returnValueSb.append(activity.getString(R.string.fourier));
                 returnValueSb.append(activity.getString(R.string.row_separator));
 
+                // FastFourierTransformer transformer = new FastFourierTransformer(DftNormalization.UNITARY);
+                // Complex[] transformationResult = transformer.transform(stdValuesDoubleArray, TransformType.FORWARD);
 
-                FastFourierTransformer transformer = new FastFourierTransformer(DftNormalization.UNITARY);
-                Complex[] transformationResult = transformer.transform(stdValuesDoubleArray, TransformType.FORWARD);
-
-                for (Complex complex : transformationResult) {
-                    returnValueSb.append(complex.getReal());
-                    returnValueSb.append(activity.getString(R.string.separator));
-                    returnValueSb.append(complex.getImaginary());
-                    returnValueSb.append(activity.getString(R.string.row_separator));
-                }
+                // for (Complex complex : transformationResult) {
+                //     returnValueSb.append(complex.getReal());
+                //     returnValueSb.append(activity.getString(R.string.separator));
+                //     returnValueSb.append(complex.getImaginary());
+                //     returnValueSb.append(activity.getString(R.string.row_separator));
+                // }
 
                 ((EditText) activity.findViewById(R.id.editText)).setText(returnValueSb.toString());
             }
