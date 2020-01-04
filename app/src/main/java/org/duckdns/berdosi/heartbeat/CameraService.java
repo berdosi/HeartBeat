@@ -19,7 +19,7 @@ import androidx.core.app.ActivityCompat;
 import java.util.Collections;
 import java.util.Objects;
 
-class PulseMeasurer {
+class CameraService {
     private String cameraId;
     private final Activity activity;
     private CameraDevice cameraDevice;
@@ -27,7 +27,7 @@ class PulseMeasurer {
 
     private CaptureRequest.Builder previewCaptureRequestBuilder;
 
-    PulseMeasurer(Activity _activity) {
+    CameraService(Activity _activity) {
         activity = _activity;
     }
 

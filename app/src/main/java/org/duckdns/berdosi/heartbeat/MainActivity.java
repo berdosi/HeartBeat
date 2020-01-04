@@ -16,7 +16,7 @@ import android.view.MenuItem;
 
 
 public class MainActivity extends AppCompatActivity {
-    private final PulseMeasurer measurer = new PulseMeasurer(this);
+    private final CameraService cameraService = new CameraService(this);
 
     private Canvas chartCanvas;
 
@@ -38,18 +38,14 @@ public class MainActivity extends AppCompatActivity {
             // todo this first appears when we close the application and switch back - TextureView isn't quite ready at the first onResume.
             Surface previewSurface = new Surface(previewSurfaceTexture);
 
-            measurer.start(previewSurface);
-
-            analyzer.measurePulse(textureView);
+            cameraService.start(previewSurface);
         }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        measurer.stop();
-        analyzer.stop();
-        analyzer  = new OutputAnalyzer(this, chartCanvas);
+        cameraService.stop();
     }
 
     @Override
