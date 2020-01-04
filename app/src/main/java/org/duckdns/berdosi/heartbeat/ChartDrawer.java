@@ -5,7 +5,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 
-import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 class ChartDrawer
 {
@@ -21,7 +21,7 @@ class ChartDrawer
 
     }
 
-    void draw(ArrayList<Measurement<Float>> data) {
+    void draw(CopyOnWriteArrayList<Measurement<Float>> data) {
         Path graphPath = new Path();
         float width = (float)chartCanvas.getWidth();
         float height = (float)chartCanvas.getHeight();

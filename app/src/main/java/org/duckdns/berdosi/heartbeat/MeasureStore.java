@@ -1,10 +1,10 @@
 package org.duckdns.berdosi.heartbeat;
 
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 class MeasureStore {
-    private final ArrayList<Measurement<Integer>> measurements = new ArrayList<>();
+    private final CopyOnWriteArrayList<Measurement<Integer>> measurements = new CopyOnWriteArrayList<>();
     private int minimum = 2147483647;
     private int maximum = -2147483648;
     private int count = 0;
@@ -22,8 +22,8 @@ class MeasureStore {
         if (measurement > maximum) maximum = measurement;
     }
 
-    ArrayList<Measurement<Float>> getStdValues() {
-        ArrayList<Measurement<Float>> stdValues = new ArrayList<>();
+    CopyOnWriteArrayList<Measurement<Float>> getStdValues() {
+        CopyOnWriteArrayList<Measurement<Float>> stdValues = new CopyOnWriteArrayList<>();
 
         for (Measurement<Integer> measurement : measurements) {
             Measurement<Float> stdValue =
@@ -36,9 +36,9 @@ class MeasureStore {
         return stdValues;
     }
 
-    ArrayList<Measurement<Integer>> getLastStdValues(int count) {
+    CopyOnWriteArrayList<Measurement<Integer>> getLastStdValues(int count) {
         if (count < measurements.size()) {
-            return  new ArrayList<>(measurements.subList(measurements.size() - 1 - count, measurements.size() - 1));
+            return  new CopyOnWriteArrayList<>(measurements.subList(measurements.size() - 1 - count, measurements.size() - 1));
         } else {
             return measurements;
         }

@@ -9,13 +9,8 @@ import android.view.TextureView;
 import android.widget.EditText;
 import android.widget.TextView;
 
-// import org.apache.commons.math3.complex.Complex;
-// import org.apache.commons.math3.transform.DftNormalization;
-// import org.apache.commons.math3.transform.FastFourierTransformer;
-// import org.apache.commons.math3.transform.TransformType;
-
-import java.util.ArrayList;
 import java.util.Locale;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 class OutputAnalyzer {
     private final Activity activity;
@@ -31,7 +26,7 @@ class OutputAnalyzer {
     private int detectedValleys = 0;
     private int ticksPassed = 0;
 
-    private final ArrayList<Long> valleys = new ArrayList<>();
+    private final CopyOnWriteArrayList<Long> valleys = new CopyOnWriteArrayList<>();
 
     private CountDownTimer timer;
 
@@ -43,7 +38,7 @@ class OutputAnalyzer {
 
     private boolean detectValley() {
         final int valleyDetectionWindowSize = 15;
-        ArrayList<Measurement<Integer>> subList = store.getLastStdValues(valleyDetectionWindowSize);
+        CopyOnWriteArrayList<Measurement<Integer>> subList = store.getLastStdValues(valleyDetectionWindowSize);
         if (subList.size() < valleyDetectionWindowSize) {
             return false;
         } else {
@@ -114,8 +109,7 @@ class OutputAnalyzer {
 
             @Override
             public void onFinish() {
-                ArrayList<Measurement<Float>> stdValues = store.getStdValues();
-                StringBuilder returnValueSb = new StringBuilder();
+                CopyOnWriteArrayList<Measurement<Float>> stdValues = store.getStdValues();
 
                 // clip the interval to the first till the last one - on this interval, there were detectedValleys - 1 periods
                 String currentValue = String.format(
