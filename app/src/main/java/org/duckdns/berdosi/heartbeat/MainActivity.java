@@ -1,7 +1,6 @@
 package org.duckdns.berdosi.heartbeat;
 
 import android.Manifest;
-import android.graphics.Canvas;
 import android.graphics.SurfaceTexture;
 import android.os.Bundle;
 
@@ -15,17 +14,15 @@ import android.view.Surface;
 public class MainActivity extends AppCompatActivity {
     private final CameraService cameraService = new CameraService(this);
 
-    private Canvas chartCanvas;
-
-    private OutputAnalyzer analyzer = new OutputAnalyzer(this, chartCanvas);
+    private OutputAnalyzer analyzer;
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        chartCanvas = ((TextureView) findViewById(R.id.textureView)).lockCanvas();
+        analyzer  = new OutputAnalyzer(this, findViewById(R.id.graphTextureView));
 
-        analyzer  = new OutputAnalyzer(this, chartCanvas);
+        TextureView cameraTextureView = findViewById(R.id.textureView2);
 
 
         TextureView textureView = findViewById(R.id.textureView2);
@@ -43,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         cameraService.stop();
+        analyzer  = new OutputAnalyzer(this, findViewById(R.id.graphTextureView));
     }
 
     @Override

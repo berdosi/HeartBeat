@@ -2,9 +2,7 @@ package org.duckdns.berdosi.heartbeat;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.os.CountDownTimer;
-import android.util.Log;
 import android.view.TextureView;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -31,9 +29,9 @@ class OutputAnalyzer {
     private CountDownTimer timer;
 
 
-    OutputAnalyzer(Activity activity, Canvas chartCanvas) {
+    OutputAnalyzer(Activity activity, TextureView graphTextureView) {
         this.activity = activity;
-        this.chartDrawer = new ChartDrawer(chartCanvas);
+        this.chartDrawer = new ChartDrawer(graphTextureView);
     }
 
     private boolean detectValley() {
@@ -70,6 +68,7 @@ class OutputAnalyzer {
                 // skip the first measurements, which are broken by exposure metering
                 if (clipLength > (++ticksPassed * measurementInterval)) return;
 
+                Thread thread = new Thread(() -> {
                 Bitmap currentBitmap = textureView.getBitmap();
                 int pixelCount = textureView.getWidth() * textureView.getHeight();
                 int measurement = 0;
@@ -103,8 +102,11 @@ class OutputAnalyzer {
                     ((TextView) activity.findViewById(R.id.textView)).setText(currentValue  );
                 }
 
-                // todo this one should be on a separate thread
-                // chartDrawer.draw(store.getStdValues());
+                    // draw the chart on a separate thread.
+                    Thread chartDrawerThread = new Thread(() -> chartDrawer.draw(store.getStdValues()));
+                    chartDrawerThread.start();
+                });
+                thread.start();
             }
 
             @Override
