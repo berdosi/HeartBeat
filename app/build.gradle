@@ -1,6 +1,20 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        debug {
+            storeFile file(storeLocation)
+            storePassword storePassword
+            keyAlias = keyAliasDebug
+            keyPassword = keyPasswordDebug
+        }
+        release {
+            storeFile file(storeLocation)
+            storePassword storePassword
+            keyAlias = keyAliasRelease
+            keyPassword = keyPasswordRelease
+        }
+    }
     compileSdkVersion 29
     buildToolsVersion '28.0.3'
     defaultConfig {
