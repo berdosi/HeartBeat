@@ -24,15 +24,13 @@ public class MainActivity extends AppCompatActivity {
 
         TextureView cameraTextureView = findViewById(R.id.textureView2);
 
-
-        TextureView textureView = findViewById(R.id.textureView2);
-
-        SurfaceTexture previewSurfaceTexture = textureView.getSurfaceTexture();
+        SurfaceTexture previewSurfaceTexture = cameraTextureView.getSurfaceTexture();
         if (previewSurfaceTexture != null) {
-            // todo this first appears when we close the application and switch back - TextureView isn't quite ready at the first onResume.
+            // this first appears when we close the application and switch back - TextureView isn't quite ready at the first onResume.
             Surface previewSurface = new Surface(previewSurfaceTexture);
 
             cameraService.start(previewSurface);
+            analyzer.measurePulse(cameraTextureView, cameraService);
         }
     }
 
@@ -40,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         cameraService.stop();
+        if (analyzer != null ) analyzer.stop();
         analyzer  = new OutputAnalyzer(this, findViewById(R.id.graphTextureView));
     }
 
