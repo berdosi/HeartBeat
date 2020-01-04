@@ -38,7 +38,7 @@
             android:layout_height="32dp" />
 
         <TextureView
-            android:id="@+id/textureView"
+            android:id="@+id/graphTextureView"
             android:layout_width="match_parent"
             android:layout_height="59dp" />
 
@@ -46,7 +46,6 @@
             android:id="@+id/editText"
             android:layout_width="match_parent"
             android:layout_height="613dp"
-            android:autofillHints='""'
             android:ems="10"
             android:hint="@string/output_hint"
             android:importantForAutofill="no"
