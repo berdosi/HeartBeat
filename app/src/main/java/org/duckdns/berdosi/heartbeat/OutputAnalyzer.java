@@ -12,6 +12,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 class OutputAnalyzer {
     private final Activity activity;
+
     private final ChartDrawer chartDrawer;
 
     private MeasureStore store;
@@ -19,7 +20,7 @@ class OutputAnalyzer {
     private final int measurementInterval = 50;
     private final int measurementLength = 15000; // ensure the number of data points is the power of two
     private final int clipLength = 3500;
-    private final float dropHeight = 0.15f;
+    // private final float dropHeight = 0.15f;
 
     private int detectedValleys = 0;
     private int ticksPassed = 0;
@@ -47,17 +48,16 @@ class OutputAnalyzer {
             }
 
             // filter out consecutive measurements due to too high measurement rate
-            return (! subList.get((int) Math.ceil(valleyDetectionWindowSize / 2)).measurement.equals(
+            return (!subList.get((int) Math.ceil(valleyDetectionWindowSize / 2)).measurement.equals(
                     subList.get((int) Math.ceil(valleyDetectionWindowSize / 2) - 1).measurement));
         }
     }
 
-    void measurePulse(TextureView textureView) {
+    void measurePulse(TextureView textureView, CameraService cameraService) {
 
-        // 10 times a second, get the amount of red on the picture.
-        // over the past 5 seconds, get the minimum, maximum, and the standardized values
+        // 20 times a second, get the amount of red on the picture.
+        // detect local minimums, calculate pulse.
 
-        Log.i("measure", "started");
         store = new MeasureStore();
 
         detectedValleys = 0;
@@ -69,38 +69,38 @@ class OutputAnalyzer {
                 if (clipLength > (++ticksPassed * measurementInterval)) return;
 
                 Thread thread = new Thread(() -> {
-                Bitmap currentBitmap = textureView.getBitmap();
-                int pixelCount = textureView.getWidth() * textureView.getHeight();
-                int measurement = 0;
-                int[] pixels = new int[pixelCount];
+                    Bitmap currentBitmap = textureView.getBitmap();
+                    int pixelCount = textureView.getWidth() * textureView.getHeight();
+                    int measurement = 0;
+                    int[] pixels = new int[pixelCount];
 
-                // todo this fails if
-                currentBitmap.getPixels(pixels, 0, textureView.getWidth(), 0, 0, textureView.getWidth(), textureView.getHeight());
+                    currentBitmap.getPixels(pixels, 0, textureView.getWidth(), 0, 0, textureView.getWidth(), textureView.getHeight());
 
-                // extract the red component
-                // https://developer.android.com/reference/android/graphics/Color.html#decoding
-                for (int pixelIndex = 0; pixelIndex < pixelCount; pixelIndex++) {
-                    measurement += (pixels[pixelIndex] >> 16) & 0xff;
-                }
-                // max int is 2^31 (2147483647) , so width and height can be at most 2^11,
-                // as 2^8 * 2^11 * 2^11 = 2^30, just below the limit
+                    // extract the red component
+                    // https://developer.android.com/reference/android/graphics/Color.html#decoding
+                    for (int pixelIndex = 0; pixelIndex < pixelCount; pixelIndex++) {
+                        measurement += (pixels[pixelIndex] >> 16) & 0xff;
+                    }
+                    // max int is 2^31 (2147483647) , so width and height can be at most 2^11,
+                    // as 2^8 * 2^11 * 2^11 = 2^30, just below the limit
 
-                store.add(measurement);
+                    store.add(measurement);
 
-                if (detectValley()) {
-                    detectedValleys = detectedValleys + 1;
-                    // in 13 seconds (13000 milliseconds), I expect 15 valleys. that would be a pulse of 15 / 130000 * 60 * 1000 = 69
+                    if (detectValley()) {
+                        detectedValleys = detectedValleys + 1;
+                        valleys.add(store.getLastTimestamp().getTime());
+                        // in 13 seconds (13000 milliseconds), I expect 15 valleys. that would be a pulse of 15 / 130000 * 60 * 1000 = 69
 
-                    String currentValue = String.format(
-                        Locale.getDefault(),
-                        "%f , %d valleys in %f seconds",
-                        60f * (detectedValleys) / (Math.max(1, (measurementLength - millisUntilFinished - clipLength) / 1000f)),
-                        detectedValleys,
-                        1f * (measurementLength - millisUntilFinished - clipLength) / 1000f);
-                    ((EditText) activity.findViewById(R.id.editText)).setText(currentValue);
-                    valleys.add(store.getLastTimestamp().getTime());
-                    ((TextView) activity.findViewById(R.id.textView)).setText(currentValue  );
-                }
+                        String currentValue = String.format(
+                                Locale.getDefault(),
+                                activity.getResources().getQuantityString(R.plurals.measurement_output_template, detectedValleys),
+                                (valleys.size() == 1)
+                                        ? (60f * (detectedValleys) / (Math.max(1, (measurementLength - millisUntilFinished - clipLength) / 1000f)))
+                                        : (60f * (detectedValleys - 1) / (Math.max(1, (valleys.get(valleys.size() - 1) - valleys.get(0)) / 1000f))),
+                                detectedValleys,
+                                1f * (measurementLength - millisUntilFinished - clipLength) / 1000f);
+                        ((TextView) activity.findViewById(R.id.textView)).setText(currentValue);
+                    }
 
                     // draw the chart on a separate thread.
                     Thread chartDrawerThread = new Thread(() -> chartDrawer.draw(store.getStdValues()));
@@ -116,55 +116,45 @@ class OutputAnalyzer {
                 // clip the interval to the first till the last one - on this interval, there were detectedValleys - 1 periods
                 String currentValue = String.format(
                         Locale.getDefault(),
-                        "%f , %d valleys in %f seconds",
+                        activity.getResources().getQuantityString(R.plurals.measurement_output_template, detectedValleys - 1),
                         60f * (detectedValleys - 1) / (Math.max(1, (valleys.get(valleys.size() - 1) - valleys.get(0)) / 1000f)),
                         detectedValleys - 1,
-                        1f * ( valleys.get(valleys.size() - 1) - valleys.get(0) ) / 1000f);
+                        1f * (valleys.get(valleys.size() - 1) - valleys.get(0)) / 1000f);
 
-                ((EditText) activity.findViewById(R.id.editText)).setText(currentValue);
+                ((TextView) activity.findViewById(R.id.textView)).setText(currentValue);
 
-                // to the debug message, add a "raw" value
-                returnValueSb.append(String.format(
-                        Locale.getDefault(),
-                        "%f , %d valleys in %f seconds",
-                        60f * (detectedValleys) / (Math.max(1, (measurementLength - clipLength) / 1000f)),
-                        detectedValleys,
-                        1f * (measurementLength - clipLength) / 1000f));
+                StringBuilder returnValueSb = new StringBuilder();
+                returnValueSb.append(currentValue);
                 returnValueSb.append(activity.getString(R.string.row_separator));
 
                 // look for "drops" of 0.15 - 0.75 in the value
                 // a drop may take 2-3 ticks.
-                int dropCount = 0;
-                for (int stdValueIdx = 4; stdValueIdx < stdValues.size(); stdValueIdx++) {
-                    if (((stdValues.get(stdValueIdx - 2).measurement - stdValues.get(stdValueIdx).measurement) > dropHeight) &&
-                            !((stdValues.get(stdValueIdx - 3).measurement - stdValues.get(stdValueIdx - 1).measurement) > dropHeight) &&
-                            !((stdValues.get(stdValueIdx - 4).measurement - stdValues.get(stdValueIdx - 2).measurement) > dropHeight)
-                    ) {
-                        dropCount++;
-                    }
-                }
+                // int dropCount = 0;
+                // for (int stdValueIdx = 4; stdValueIdx < stdValues.size(); stdValueIdx++) {
+                //     if (((stdValues.get(stdValueIdx - 2).measurement - stdValues.get(stdValueIdx).measurement) > dropHeight) &&
+                //             !((stdValues.get(stdValueIdx - 3).measurement - stdValues.get(stdValueIdx - 1).measurement) > dropHeight) &&
+                //            !((stdValues.get(stdValueIdx - 4).measurement - stdValues.get(stdValueIdx - 2).measurement) > dropHeight)
+                //    ) {
+                //        dropCount++;
+                //    }
+                // }
 
-                returnValueSb.append(activity.getString(R.string.detected_pulse));
-                returnValueSb.append(activity.getString(R.string.separator));
-                returnValueSb.append((float) dropCount / ((float) (measurementLength - clipLength) / 1000f / 60f));
+                // returnValueSb.append(activity.getString(R.string.detected_pulse));
+                // returnValueSb.append(activity.getString(R.string.separator));
+                // returnValueSb.append((float) dropCount / ((float) (measurementLength - clipLength) / 1000f / 60f));
+                // returnValueSb.append(activity.getString(R.string.row_separator));
+
+                returnValueSb.append(activity.getString(R.string.raw_values));
                 returnValueSb.append(activity.getString(R.string.row_separator));
 
-                // building a double[] could help if Fourier transformation worked.
-                // FFT requires its length to be a power of two.
-                // double[] stdValuesDoubleArray = new double[(int) Math.pow(2, Math.ceil(Math.log(stdValues.size()) / Math.log(2)))];
 
-
-                int doubleArrayIndex = 0;
                 for (int stdValueIdx = 0; stdValueIdx < stdValues.size(); stdValueIdx++) {
+                    // stdValues.forEach((value) -> { // would require API level 24 instead of 21.
                     Measurement<Float> value = stdValues.get(stdValueIdx);
-                    // stdValues.forEach((value) -> {
                     returnValueSb.append(value.timestamp.getTime());
                     returnValueSb.append(activity.getString(R.string.separator));
                     returnValueSb.append(value.measurement);
                     returnValueSb.append(activity.getString(R.string.row_separator));
-
-                    // stdValuesDoubleArray[doubleArrayIndex++] = (double) value.measurement;
-                    // });
                 }
 
                 // add detected valleys location
@@ -173,21 +163,9 @@ class OutputAnalyzer {
                     returnValueSb.append(activity.getString(R.string.row_separator));
                 }
 
-
-                returnValueSb.append(activity.getString(R.string.fourier));
-                returnValueSb.append(activity.getString(R.string.row_separator));
-
-                // FastFourierTransformer transformer = new FastFourierTransformer(DftNormalization.UNITARY);
-                // Complex[] transformationResult = transformer.transform(stdValuesDoubleArray, TransformType.FORWARD);
-
-                // for (Complex complex : transformationResult) {
-                //     returnValueSb.append(complex.getReal());
-                //     returnValueSb.append(activity.getString(R.string.separator));
-                //     returnValueSb.append(complex.getImaginary());
-                //     returnValueSb.append(activity.getString(R.string.row_separator));
-                // }
-
                 ((EditText) activity.findViewById(R.id.editText)).setText(returnValueSb.toString());
+
+                cameraService.stop();
             }
         };
 
