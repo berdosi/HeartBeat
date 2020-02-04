@@ -17,7 +17,7 @@ class OutputAnalyzer {
 
     private MeasureStore store;
 
-    private final int measurementInterval = 50;
+    private final int measurementInterval = 40;
     private final int measurementLength = 15000; // ensure the number of data points is the power of two
     private final int clipLength = 3500;
     // private final float dropHeight = 0.15f;
