@@ -17,10 +17,9 @@ class OutputAnalyzer {
 
     private MeasureStore store;
 
-    private final int measurementInterval = 40;
+    private final int measurementInterval = 45;
     private final int measurementLength = 15000; // ensure the number of data points is the power of two
     private final int clipLength = 3500;
-    // private final float dropHeight = 0.15f;
 
     private int detectedValleys = 0;
     private int ticksPassed = 0;
@@ -36,7 +35,7 @@ class OutputAnalyzer {
     }
 
     private boolean detectValley() {
-        final int valleyDetectionWindowSize = 15;
+        final int valleyDetectionWindowSize = 13;
         CopyOnWriteArrayList<Measurement<Integer>> subList = store.getLastStdValues(valleyDetectionWindowSize);
         if (subList.size() < valleyDetectionWindowSize) {
             return false;
