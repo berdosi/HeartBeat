@@ -7,16 +7,10 @@ class MeasureStore {
     private final CopyOnWriteArrayList<Measurement<Integer>> measurements = new CopyOnWriteArrayList<>();
     private int minimum = 2147483647;
     private int maximum = -2147483648;
-    private int count = 0;
-    private float average = 0;
-    private int rollingAverageSize = 3;
+    private final int rollingAverageSize = 4;
 
     void add(int measurement) {
         Measurement<Integer> measurementWithDate = new Measurement<>(new Date(), measurement);
-
-        count++;
-        if (count == 1) average = (float) measurement;
-        else average = (((count - 1) * average) + measurement) / count;
 
         measurements.add(measurementWithDate);
         if (measurement < minimum) minimum = measurement;
@@ -27,7 +21,7 @@ class MeasureStore {
         CopyOnWriteArrayList<Measurement<Float>> stdValues = new CopyOnWriteArrayList<>();
 
         for (int i = 0; i < measurements.size(); i++) {
-            float sum = measurements.get(i).measurement;
+            int sum = 0;
             for (int rollingAverageCounter = 0; rollingAverageCounter < rollingAverageSize; rollingAverageCounter++) {
                 sum += measurements.get(Math.max(0, i - rollingAverageCounter)).measurement;
             }
@@ -35,7 +29,7 @@ class MeasureStore {
             Measurement<Float> stdValue =
                     new Measurement<>(
                             measurements.get(i).timestamp,
-                            (sum / rollingAverageSize - average) / (float) ((maximum - minimum) / 2));
+                            ((float)sum / rollingAverageSize - minimum ) / (maximum - minimum));
             stdValues.add(stdValue);
         }
 
