@@ -1,4 +1,4 @@
-package org.duckdns.berdosi.heartbeat;
+package eu.berdosi.app.heartbeat;
 
 import android.content.Context;
 
@@ -22,6 +22,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-        assertEquals("org.duckdns.berdosi.heartbeat", appContext.getPackageName());
+        assertEquals("eu.berdosi.app.heartbeat", appContext.getPackageName());
     }
 }

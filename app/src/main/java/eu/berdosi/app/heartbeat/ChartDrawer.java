@@ -1,4 +1,4 @@
-package org.duckdns.berdosi.heartbeat;
+package eu.berdosi.app.heartbeat;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
