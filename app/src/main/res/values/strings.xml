@@ -4,6 +4,7 @@
     <string name="separator">,</string>
     <string name="row_separator">\n</string>
     <string name="raw_values">Measurements (Timestamp, Value)</string>
+    <string name="share_button_description">Share</string>
     <plurals name="measurement_output_template">
         <item quantity="zero">Pulse: %2.1f (%d cycle in %2.1f seconds)</item>
         <item quantity="one">Pulse: %2.1f (%d cycle in %2.1f seconds)</item>

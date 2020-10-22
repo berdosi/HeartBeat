@@ -8,48 +8,58 @@
     tools:context=".MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="409dp"
-        android:layout_height="673dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="1dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.14"
-        app:layout_constraintStart_toStartOf="parent"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/camera_view_height"
         app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="73dp"
-            android:layout_gravity="center_vertical"
-            android:gravity="fill_vertical"
-            android:textAlignment="center"
-            android:textAllCaps="false"
-            android:textIsSelectable="false" />
 
         <TextureView
             android:id="@+id/textureView2"
-            android:layout_width="32dp"
-            android:layout_height="32dp" />
+            android:layout_width="@dimen/camera_view_width"
+            android:layout_height="@dimen/camera_view_height"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-        <TextureView
-            android:id="@+id/graphTextureView"
-            android:layout_width="match_parent"
-            android:layout_height="59dp" />
+        <TextView
+            android:id="@+id/textView"
+            android:layout_height="match_parent"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textIsSelectable="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imageButton"
+            app:layout_constraintStart_toEndOf="@+id/textureView2"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/editText"
-            android:layout_width="match_parent"
-            android:layout_height="613dp"
-            android:ems="10"
-            android:hint="@string/output_hint"
-            android:importantForAutofill="no"
-            android:inputType="none" />
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="@dimen/camera_view_width"
+            android:layout_height="@dimen/camera_view_height"
+            android:contentDescription="@string/share_button_description"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@android:drawable/ic_menu_share" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </LinearLayout>
+    <TextureView
+        android:id="@+id/graphTextureView"
+        android:layout_width="match_parent"
+        android:layout_height="59dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:ems="10"
+        android:hint="@string/output_hint"
+        android:importantForAutofill="no"
+        android:inputType="none"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/graphTextureView" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
