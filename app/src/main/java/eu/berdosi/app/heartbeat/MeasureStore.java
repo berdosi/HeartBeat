@@ -7,6 +7,15 @@ class MeasureStore {
     private final CopyOnWriteArrayList<Measurement<Integer>> measurements = new CopyOnWriteArrayList<>();
     private int minimum = 2147483647;
     private int maximum = -2147483648;
+
+    /**
+     * The latest N measurements are always averaged in order to smooth the values before it is
+     * analyzed.
+     *
+     * This value may need to be experimented with - it is better on the class level than putting it
+     * into local scope
+     */
+    @SuppressWarnings("FieldCanBeLocal")
     private final int rollingAverageSize = 4;
 
     void add(int measurement) {
@@ -36,6 +45,7 @@ class MeasureStore {
         return stdValues;
     }
 
+    @SuppressWarnings("SameParameterValue") // this parameter can be set at OutputAnalyzer
     CopyOnWriteArrayList<Measurement<Integer>> getLastStdValues(int count) {
         if (count < measurements.size()) {
             return  new CopyOnWriteArrayList<>(measurements.subList(measurements.size() - 1 - count, measurements.size() - 1));

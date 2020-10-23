@@ -3,9 +3,9 @@ package eu.berdosi.app.heartbeat;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Message;
 import android.view.TextureView;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import java.util.Locale;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -28,10 +28,12 @@ class OutputAnalyzer {
 
     private CountDownTimer timer;
 
+    private final Handler mainHandler;
 
-    OutputAnalyzer(Activity activity, TextureView graphTextureView) {
+    OutputAnalyzer(Activity activity, TextureView graphTextureView, Handler mainHandler) {
         this.activity = activity;
         this.chartDrawer = new ChartDrawer(graphTextureView);
+        this.mainHandler = mainHandler;
     }
 
     private boolean detectValley() {
@@ -40,15 +42,15 @@ class OutputAnalyzer {
         if (subList.size() < valleyDetectionWindowSize) {
             return false;
         } else {
-            Integer referenceValue = subList.get((int) Math.ceil(valleyDetectionWindowSize / 2)).measurement;
+            Integer referenceValue = subList.get((int) Math.ceil(valleyDetectionWindowSize / 2f)).measurement;
 
             for (Measurement<Integer> measurement : subList) {
                 if (measurement.measurement < referenceValue) return false;
             }
 
             // filter out consecutive measurements due to too high measurement rate
-            return (!subList.get((int) Math.ceil(valleyDetectionWindowSize / 2)).measurement.equals(
-                    subList.get((int) Math.ceil(valleyDetectionWindowSize / 2) - 1).measurement));
+            return (!subList.get((int) Math.ceil(valleyDetectionWindowSize / 2f)).measurement.equals(
+                    subList.get((int) Math.ceil(valleyDetectionWindowSize / 2f) - 1).measurement));
         }
     }
 
@@ -62,6 +64,7 @@ class OutputAnalyzer {
         detectedValleys = 0;
 
         timer = new CountDownTimer(measurementLength, measurementInterval) {
+
             @Override
             public void onTick(long millisUntilFinished) {
                 // skip the first measurements, which are broken by exposure metering
@@ -98,7 +101,8 @@ class OutputAnalyzer {
                                         : (60f * (detectedValleys - 1) / (Math.max(1, (valleys.get(valleys.size() - 1) - valleys.get(0)) / 1000f))),
                                 detectedValleys,
                                 1f * (measurementLength - millisUntilFinished - clipLength) / 1000f);
-                        ((TextView) activity.findViewById(R.id.textView)).setText(currentValue);
+
+                        sendMessage(MainActivity.MESSAGE_UPDATE_REALTIME, currentValue);
                     }
 
                     // draw the chart on a separate thread.
@@ -120,7 +124,7 @@ class OutputAnalyzer {
                         detectedValleys - 1,
                         1f * (valleys.get(valleys.size() - 1) - valleys.get(0)) / 1000f);
 
-                ((TextView) activity.findViewById(R.id.textView)).setText(currentValue);
+                sendMessage(MainActivity.MESSAGE_UPDATE_REALTIME, currentValue);
 
                 StringBuilder returnValueSb = new StringBuilder();
                 returnValueSb.append(currentValue);
@@ -156,13 +160,16 @@ class OutputAnalyzer {
                     returnValueSb.append(activity.getString(R.string.row_separator));
                 }
 
+                returnValueSb.append(activity.getString(R.string.output_detected_peaks_header));
+                returnValueSb.append(activity.getString(R.string.row_separator));
+
                 // add detected valleys location
                 for (long tick : valleys) {
                     returnValueSb.append(tick);
                     returnValueSb.append(activity.getString(R.string.row_separator));
                 }
 
-                ((EditText) activity.findViewById(R.id.editText)).setText(returnValueSb.toString());
+                sendMessage(MainActivity.MESSAGE_UPDATE_FINAL, returnValueSb.toString());
 
                 cameraService.stop();
             }
@@ -175,5 +182,12 @@ class OutputAnalyzer {
         if (timer != null) {
             timer.cancel();
         }
+    }
+
+    void sendMessage(int what, Object message) {
+        Message msg = new Message();
+        msg.what = what;
+        msg.obj = message;
+        mainHandler.sendMessage(msg);
     }
 }

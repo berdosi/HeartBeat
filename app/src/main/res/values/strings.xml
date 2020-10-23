@@ -1,6 +1,14 @@
 <resources>
     <string name="app_name">HeartBeat</string>
-    <string name="output_hint">Please place your finger on the device\'s camera, covering the flash as well.</string>
+    <string name="output_hint">
+        Please place your finger on the device\'s camera, covering the flash as well.\n
+        After 10 seconds, you can export the results with the Share button. \n\n
+    This utility works by measuring the amount of red it sees through the camera, and attempting to detect the fluctuations. \n
+        It works better in a darkened room, and when the pressure on the camera is constant.</string>
+    <string name="output_header_template">Heart rate raw data as of %s</string>
+    <string name="output_body_template">Final result:\n%s\nNormalized results and detected peaks:\n%s</string>
+    <string name="output_detected_peaks_header">Detected Peaks:</string>
+    <string name="send_output_to">Send output to:</string>
     <string name="separator">,</string>
     <string name="row_separator">\n</string>
     <string name="raw_values">Measurements (Timestamp, Value)</string>
