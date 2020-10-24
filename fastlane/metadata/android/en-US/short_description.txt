@@ -1,0 +1,1 @@
+Calculate heart rate from camera image

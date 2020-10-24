@@ -1,0 +1,15 @@
+Egyszerű szívverés-számláló. Orvosi célra nem alkalmas!
+
+Az alkalmazás használatához annak elindításakor takarja le az eszköz kameráját és a vakut egy ujjával, majd várjon 10 másodpercet. Az optimális eredmény
+érdekében kerülje a mozgást, és végezze a mérést sötétben.
+
+A telefon elemzi a kamerán látott kép vörös komponensét, és a szívverést annak változásai alapján próbálja kiszámítani.
+
+Mérés közben az alkalmazás az aktuális számítási eredményeket, valamint egy grafikont mutat az eddig rögzített adatokról.
+
+A mérés végén az alábbi részleteket mutatja:
+<ul>
+<li>Sztenderdizált értékek, az időbélyeggel együtt (az értékeket 0 és 1 közé szorítja, és mozgóátlaggal simítja)</li>
+<li>Időbélyegek, amikor ezek alapján új szívverést észlelt.</li>
+</ul>
+Ezeket az eredményeket meg lehet osztani más alkalmazásokkal rögzítés céljából.

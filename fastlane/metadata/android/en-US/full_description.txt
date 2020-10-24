@@ -1,0 +1,15 @@
+Simple way to estimate the heart rate. Please do not use it for medical purposes !
+
+This utility works by covering the flash as well as the device's camera with a finger, and waiting for 10 seconds. It works best when the person stays still, and the environment is dark. 
+
+The phone analyzes the amount of red captured by the camera, and attempts to calculate the heart rate based on the subtle changes it detects.
+
+During the measurement, the application shows the current calculation results, and shows the captured data on a line chart.
+
+Once completed, the following further details are shown:
+<ul>
+<li>Standardized values, along with their timestamp (the values are scaled between 0 and 1, and a rolling average is applied for smoothing)</li>
+<li>Timings where a new heart beat is detected.</li>
+</ul
+
+These data can be shared with other application in order to be exported.
