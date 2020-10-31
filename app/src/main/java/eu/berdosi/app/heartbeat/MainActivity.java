@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.SurfaceTexture;
 import android.os.Bundle;
 
@@ -20,10 +21,13 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.Date;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements ActivityCompat.OnRequestPermissionsResultCallback {
     private final CameraService cameraService = new CameraService(this);
+    private final int REQUEST_CODE_CAMERA = 0;
 
     private boolean justShared = false;
 
@@ -84,11 +88,23 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
 
-        int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 1;
         ActivityCompat.requestPermissions(this,
                 new String[]{Manifest.permission.CAMERA},
-                MY_PERMISSIONS_REQUEST_READ_CONTACTS);
+                REQUEST_CODE_CAMERA);
 
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_CODE_CAMERA) {
+            if (!(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                Snackbar.make(
+                        findViewById(R.id.constraintLayout),
+                        getString(R.string.cameraPermissionRequired),
+                        Snackbar.LENGTH_LONG).show();
+            }
+        }
     }
 
     public void onClickShareButton(View view) {
