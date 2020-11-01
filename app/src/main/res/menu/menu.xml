@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menuNewMeasurement"
+        android:onClick="onClickNewMeasurement"
+        android:title="@string/new_measurement" />
+    <item
+        android:id="@+id/menuExportResult"
+        android:enabled="false"
+        android:onClick="onClickExportResult"
+        android:title="@string/export_result"
+        android:visible="false" />
+    <item
+        android:id="@+id/menuExportDetails"
+        android:enabled="false"
+        android:onClick="onClickExportDetails"
+        android:title="@string/export_details"
+        android:visible="false" />
+</menu>

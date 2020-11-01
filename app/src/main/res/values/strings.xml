@@ -1,10 +1,12 @@
 <resources>
     <string name="app_name">HeartBeat</string>
     <string name="output_hint">
-        Please place your finger on the device\'s camera, covering the flash as well.\n
-        After 10 seconds, you can export the results with the Share button. \n\n
-    This utility works by measuring the amount of red it sees through the camera, and attempting to detect the fluctuations. \n
-        It works better in a darkened room, and when the pressure on the camera is constant.</string>
+        Please place your finger on the device\'s camera, covering the flash as well.\nAfter
+        10 seconds, you can export the results with the Share button. \n\nThis utility works
+        by measuring the amount of red it sees through the camera, and attempting to detect the
+        fluctuations. \nIt works better in a darkened room, and when the pressure on the camera
+        is constant. \nIn case there are multiple cameras on your device, make sure that most your
+        finger covers the entire field of view. </string>
     <string name="output_header_template">Heart rate raw data as of %s</string>
     <string name="output_body_template">Final result:\n%s\nNormalized results and detected peaks:\n%s</string>
     <string name="output_detected_peaks_header">Detected Peaks:</string>
@@ -14,6 +16,10 @@
     <string name="raw_values">Measurements (Timestamp, Value)</string>
     <string name="share_button_description">Share</string>
     <string name="cameraPermissionRequired">Camera permission is required for this application to work.</string>
+    <string name="noFlashWarning">Measurement without flash is less reliable.</string>
+    <string name="new_measurement">New Measurement</string>
+    <string name="export_result">Export Result</string>
+    <string name="export_details">Export Details</string>
     <plurals name="measurement_output_template">
         <item quantity="zero">Pulse: %2.1f (%d cycle in %2.1f seconds)</item>
         <item quantity="one">Pulse: %2.1f (%d cycle in %2.1f seconds)</item>
