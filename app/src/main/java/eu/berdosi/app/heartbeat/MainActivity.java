@@ -126,21 +126,6 @@ public class MainActivity extends Activity implements ActivityCompat.OnRequestPe
         return super.onPrepareOptionsMenu(menu);
     }
 
-    public void onClickShareButton(View view) {
-        final Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_SUBJECT, String.format(getString(R.string.output_header_template), new Date()));
-        intent.putExtra(
-                Intent.EXTRA_TEXT,
-                String.format(
-                        getString(R.string.output_body_template),
-                        ((TextView) findViewById(R.id.textView)).getText(),
-                        ((EditText) findViewById(R.id.editText)).getText()));
-
-        justShared = true;
-        startActivity(Intent.createChooser(intent, getString(R.string.send_output_to)));
-    }
-
     public void onClickNewMeasurement(MenuItem item) {
         analyzer  = new OutputAnalyzer(this, findViewById(R.id.graphTextureView), mainHandler);
 
