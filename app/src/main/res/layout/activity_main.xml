@@ -84,18 +84,4 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginEnd="64dp"
-        android:layout_marginBottom="64dp"
-        android:clickable="false"
-        android:contentDescription="@string/share_button_description"
-        android:focusable="true"
-        android:onClick="onClickShareButton"
-        app:backgroundTint="@color/colorAccent"
-        app:srcCompat="@android:drawable/ic_menu_share" />
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

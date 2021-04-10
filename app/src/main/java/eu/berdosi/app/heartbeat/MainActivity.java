@@ -52,8 +52,6 @@ public class MainActivity extends Activity implements ActivityCompat.OnRequestPe
             if (msg.what == MESSAGE_UPDATE_FINAL) {
                 ((EditText) findViewById(R.id.editText)).setText(msg.obj.toString());
 
-                findViewById(R.id.floatingActionButton).setClickable(true);
-
                 // make sure menu items are enabled when it opens.
                 menuNewMeasurementEnabled = true;
                 menuExportResultEnabled = true;
