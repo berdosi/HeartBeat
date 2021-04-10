@@ -29,13 +29,12 @@ import java.util.Date;
 
 public class MainActivity extends Activity implements ActivityCompat.OnRequestPermissionsResultCallback {
     private final CameraService cameraService = new CameraService(this);
+    private OutputAnalyzer analyzer;
+
     private final int REQUEST_CODE_CAMERA = 0;
-
     private boolean justShared = false;
-
-    private boolean menuNewMeasurementEnabled = false;
-    private boolean menuExportResultEnabled = false;
-    private boolean menuExportDetailsEnabled = false;
+    public static final int MESSAGE_UPDATE_REALTIME = 1;
+    public static final int MESSAGE_UPDATE_FINAL = 2;
 
     @SuppressLint("HandlerLeak")
     private final Handler mainHandler = new Handler() {
@@ -50,19 +49,11 @@ public class MainActivity extends Activity implements ActivityCompat.OnRequestPe
             if (msg.what == MESSAGE_UPDATE_FINAL) {
                 ((EditText) findViewById(R.id.editText)).setText(msg.obj.toString());
 
-                // make sure menu items are enabled when it opens.
-                menuNewMeasurementEnabled = true;
-                menuExportResultEnabled = true;
-                menuExportDetailsEnabled = true;
 
             }
         }
     };
 
-    private OutputAnalyzer analyzer;
-
-    public static final int MESSAGE_UPDATE_REALTIME = 1;
-    public static final int MESSAGE_UPDATE_FINAL = 2;
 
     @Override
     protected void onResume() {
@@ -75,7 +66,8 @@ public class MainActivity extends Activity implements ActivityCompat.OnRequestPe
 
         // justShared is set if one clicks the share button.
         if ((previewSurfaceTexture != null) && !justShared) {
-            // this first appears when we close the application and switch back - TextureView isn't quite ready at the first onResume.
+            // this first appears when we close the application and switch back
+            // - TextureView isn't quite ready at the first onResume.
             Surface previewSurface = new Surface(previewSurfaceTexture);
 
             // show warning when there is no flash
@@ -154,8 +146,10 @@ public class MainActivity extends Activity implements ActivityCompat.OnRequestPe
 
         TextureView cameraTextureView = findViewById(R.id.textureView2);
         SurfaceTexture previewSurfaceTexture = cameraTextureView.getSurfaceTexture();
-        if ((previewSurfaceTexture != null) && !justShared) {
-            // this first appears when we close the application and switch back - TextureView isn't quite ready at the first onResume.
+
+        if (previewSurfaceTexture != null) {
+            // this first appears when we close the application and switch back
+            // - TextureView isn't quite ready at the first onResume.
             Surface previewSurface = new Surface(previewSurfaceTexture);
             cameraService.start(previewSurface);
             analyzer.measurePulse(cameraTextureView, cameraService);
