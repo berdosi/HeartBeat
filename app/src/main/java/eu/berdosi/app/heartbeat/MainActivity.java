@@ -32,9 +32,13 @@ public class MainActivity extends Activity implements ActivityCompat.OnRequestPe
     private OutputAnalyzer analyzer;
 
     private final int REQUEST_CODE_CAMERA = 0;
-    private boolean justShared = false;
     public static final int MESSAGE_UPDATE_REALTIME = 1;
     public static final int MESSAGE_UPDATE_FINAL = 2;
+
+    private static final int MENU_INDEX_EXPORT_RESULT = 1;
+    private static final int MENU_INDEX_EXPORT_DETAILS = 2;
+
+    private boolean justShared = false;
 
     @SuppressLint("HandlerLeak")
     private final Handler mainHandler = new Handler() {
@@ -49,7 +53,10 @@ public class MainActivity extends Activity implements ActivityCompat.OnRequestPe
             if (msg.what == MESSAGE_UPDATE_FINAL) {
                 ((EditText) findViewById(R.id.editText)).setText(msg.obj.toString());
 
-
+                // make sure menu items are enabled when it opens.
+                Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+                toolbar.getMenu().getItem(MENU_INDEX_EXPORT_RESULT).setVisible(true);
+                toolbar.getMenu().getItem(MENU_INDEX_EXPORT_DETAILS).setVisible(true);
             }
         }
     };
@@ -92,12 +99,10 @@ public class MainActivity extends Activity implements ActivityCompat.OnRequestPe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
 
         ActivityCompat.requestPermissions(this,
                 new String[]{Manifest.permission.CAMERA},
                 REQUEST_CODE_CAMERA);
-
     }
 
     @Override
@@ -120,14 +125,16 @@ public class MainActivity extends Activity implements ActivityCompat.OnRequestPe
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
 
-        menu.findItem(R.id.menuNewMeasurement).setEnabled(menuNewMeasurementEnabled);
-        menu.findItem(R.id.menuExportResult).setEnabled(menuExportResultEnabled);
-        menu.findItem(R.id.menuExportDetails).setEnabled(menuExportDetailsEnabled);
         return super.onPrepareOptionsMenu(menu);
     }
 
     public void onClickNewMeasurement(MenuItem item) {
         analyzer  = new OutputAnalyzer(this, findViewById(R.id.graphTextureView), mainHandler);
+
+        // clear prior results
+        char[] empty = new char[0];
+        ((EditText) findViewById(R.id.editText)).setText(empty,0 ,0);
+        ((TextView) findViewById(R.id.textView)).setText(empty,0 ,0);
 
         TextureView cameraTextureView = findViewById(R.id.textureView2);
         SurfaceTexture previewSurfaceTexture = cameraTextureView.getSurfaceTexture();
