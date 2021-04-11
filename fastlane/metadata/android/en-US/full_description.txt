@@ -10,6 +10,6 @@ Once completed, the following further details are shown:
 <ul>
 <li>Standardized values, along with their timestamp (the values are scaled between 0 and 1, and a rolling average is applied for smoothing)</li>
 <li>Timings where a new heart beat is detected.</li>
-</ul
+</ul>
 
 These data can be shared with other application in order to be exported.
