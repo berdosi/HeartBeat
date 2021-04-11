@@ -13,6 +13,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.view.Menu;
@@ -43,7 +44,7 @@ public class MainActivity extends Activity implements ActivityCompat.OnRequestPe
     private boolean justShared = false;
 
     @SuppressLint("HandlerLeak")
-    private final Handler mainHandler = new Handler() {
+    private final Handler mainHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);

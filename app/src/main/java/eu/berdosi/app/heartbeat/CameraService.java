@@ -80,6 +80,8 @@ class CameraService {
                     };
 
                     try {
+                        // deprecated in API 30, but changing it would bump minSdkVersion to 28.
+                        //noinspection deprecation
                         camera.createCaptureSession(Collections.singletonList(previewSurface), stateCallback, null); //1
                     } catch (CameraAccessException e) {
                         if (e.getMessage() != null) {
