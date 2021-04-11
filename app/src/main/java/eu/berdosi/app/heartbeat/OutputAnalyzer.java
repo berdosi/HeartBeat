@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.TextureView;
 
+import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -154,7 +155,12 @@ class OutputAnalyzer {
                 for (int stdValueIdx = 0; stdValueIdx < stdValues.size(); stdValueIdx++) {
                     // stdValues.forEach((value) -> { // would require API level 24 instead of 21.
                     Measurement<Float> value = stdValues.get(stdValueIdx);
-                    returnValueSb.append(value.timestamp.getTime());
+                    String timeStampString =
+                            new SimpleDateFormat(
+                                    activity.getString(R.string.dateFormatGranular),
+                                    Locale.getDefault()
+                            ).format(value.timestamp);
+                    returnValueSb.append(timeStampString);
                     returnValueSb.append(activity.getString(R.string.separator));
                     returnValueSb.append(value.measurement);
                     returnValueSb.append(activity.getString(R.string.row_separator));

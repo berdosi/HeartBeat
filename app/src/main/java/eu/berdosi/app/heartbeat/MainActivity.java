@@ -26,6 +26,8 @@ import android.widget.TextView;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 public class MainActivity extends Activity implements ActivityCompat.OnRequestPermissionsResultCallback {
     private final CameraService cameraService = new CameraService(this);
@@ -61,12 +63,11 @@ public class MainActivity extends Activity implements ActivityCompat.OnRequestPe
         }
     };
 
-
     @Override
     protected void onResume() {
         super.onResume();
 
-        analyzer  = new OutputAnalyzer(this, findViewById(R.id.graphTextureView), mainHandler);
+        analyzer = new OutputAnalyzer(this, findViewById(R.id.graphTextureView), mainHandler);
 
         TextureView cameraTextureView = findViewById(R.id.textureView2);
         SurfaceTexture previewSurfaceTexture = cameraTextureView.getSurfaceTexture();
@@ -78,7 +79,7 @@ public class MainActivity extends Activity implements ActivityCompat.OnRequestPe
             Surface previewSurface = new Surface(previewSurfaceTexture);
 
             // show warning when there is no flash
-            if (! this.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)) {
+            if (!this.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)) {
                 Snackbar.make(findViewById(R.id.constraintLayout), getString(R.string.noFlashWarning), Snackbar.LENGTH_LONG);
             }
 
@@ -91,8 +92,8 @@ public class MainActivity extends Activity implements ActivityCompat.OnRequestPe
     protected void onPause() {
         super.onPause();
         cameraService.stop();
-        if (analyzer != null ) analyzer.stop();
-        analyzer  = new OutputAnalyzer(this, findViewById(R.id.graphTextureView), mainHandler);
+        if (analyzer != null) analyzer.stop();
+        analyzer = new OutputAnalyzer(this, findViewById(R.id.graphTextureView), mainHandler);
     }
 
     @Override
@@ -120,7 +121,7 @@ public class MainActivity extends Activity implements ActivityCompat.OnRequestPe
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        Log.i("MENU","menu is being prepared");
+        Log.i("MENU", "menu is being prepared");
 
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
@@ -129,12 +130,12 @@ public class MainActivity extends Activity implements ActivityCompat.OnRequestPe
     }
 
     public void onClickNewMeasurement(MenuItem item) {
-        analyzer  = new OutputAnalyzer(this, findViewById(R.id.graphTextureView), mainHandler);
+        analyzer = new OutputAnalyzer(this, findViewById(R.id.graphTextureView), mainHandler);
 
         // clear prior results
         char[] empty = new char[0];
-        ((EditText) findViewById(R.id.editText)).setText(empty,0 ,0);
-        ((TextView) findViewById(R.id.textView)).setText(empty,0 ,0);
+        ((EditText) findViewById(R.id.editText)).setText(empty, 0, 0);
+        ((TextView) findViewById(R.id.textView)).setText(empty, 0, 0);
 
         TextureView cameraTextureView = findViewById(R.id.textureView2);
         SurfaceTexture previewSurfaceTexture = cameraTextureView.getSurfaceTexture();
@@ -163,7 +164,15 @@ public class MainActivity extends Activity implements ActivityCompat.OnRequestPe
     private Intent getTextIntent(String intentText) {
         final Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_SUBJECT, String.format(getString(R.string.output_header_template), new Date()));
+        intent.putExtra(
+                Intent.EXTRA_SUBJECT,
+                String.format(
+                        getString(R.string.output_header_template),
+                        new SimpleDateFormat(
+                                getString(R.string.dateFormat),
+                                Locale.getDefault()
+                        ).format(new Date())
+                ));
         intent.putExtra(Intent.EXTRA_TEXT, intentText);
         return intent;
     }

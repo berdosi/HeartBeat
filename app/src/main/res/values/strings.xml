@@ -10,7 +10,7 @@
         field of view in the small viewfinder.
         \nOnce the measurement is complete, it can be exported or repeated through the menu.
     </string>
-    <string name="output_header_template">Heart rate raw data as of %s</string>
+    <string name="output_header_template">Heart rate on %s</string>
     <string name="output_detected_peaks_header">Detected Peaks:</string>
     <string name="send_output_to">Send output to:</string>
     <string name="separator">,</string>
@@ -21,6 +21,8 @@
     <string name="new_measurement">New Measurement</string>
     <string name="export_result">Export Result</string>
     <string name="export_details">Export Details</string>
+    <string name="dateFormat">yyyy-MM-dd\'T\'HH:mm:ssXXX</string>
+    <string name="dateFormatGranular">yyyy-MM-dd\'T\'HH:mm:ss.SSSXXX</string>
     <plurals name="measurement_output_template">
         <item quantity="zero">Pulse: %2.1f (%d cycle in %2.1f seconds)</item>
         <item quantity="one">Pulse: %2.1f (%d cycle in %2.1f seconds)</item>
