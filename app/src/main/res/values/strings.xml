@@ -2,7 +2,7 @@
     <string name="app_name">HeartBeat</string>
     <string name="output_hint">
         Please place your finger on the device\'s camera, covering the flash as well. After
-        10 seconds, you can export the results with the Share button.
+        10 seconds, you can export the results through the menu.
         \n\nThis utility works by measuring the amount of red it sees through the camera, and
         attempting to detect the fluctuations.
         \nIt works better in a darkened room, and when the pressure on the camera is constant.
