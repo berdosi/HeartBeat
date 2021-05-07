@@ -6,9 +6,9 @@
         \n\nDit hulpprogramma werkt door de hoeveelheid rood te meten die door de camera wordt gezien, en
          proberen de fluctuaties te detecteren.
         \nIt werkt beter in een verduisterde kamer en wanneer de druk op de camera constant is. 
-        \nIf er zijn meerdere camera's op uw apparaat, zorg ervoor dat uw vinger het geheel bedekt
+        \nIf er zijn meerdere camera\'s op uw apparaat, zorg ervoor dat uw vinger het geheel bedekt
          gezichtsveld in de kleine zoeker. 
-        \Zodra de meting is voltooid, kan deze worden geëxporteerd of herhaald via het menu .
+        \nZodra de meting is voltooid, kan deze worden geëxporteerd of herhaald via het menu .
     </string>
     <string name="output_header_template">Hartslag aan %s</string>
     <string name="output_detected_peaks_header">Gedetecteerde pieken :</string>
