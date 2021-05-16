@@ -28,4 +28,5 @@
         <item quantity="one">Pulse: %2.1f (%d cycle in %2.1f seconds)</item>
         <item quantity="other">Pulse: %2.1f (%d cycles in %2.1f seconds)</item>
     </plurals>
+    <string name="camera_not_found">Camera not available.</string>
 </resources>
