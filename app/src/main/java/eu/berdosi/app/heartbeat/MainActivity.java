@@ -31,12 +31,12 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 public class MainActivity extends Activity implements ActivityCompat.OnRequestPermissionsResultCallback {
-    private final CameraService cameraService = new CameraService(this);
     private OutputAnalyzer analyzer;
 
     private final int REQUEST_CODE_CAMERA = 0;
     public static final int MESSAGE_UPDATE_REALTIME = 1;
     public static final int MESSAGE_UPDATE_FINAL = 2;
+    public static final int MESSAGE_CAMERA_NOT_AVAILABLE = 3;
 
     private static final int MENU_INDEX_EXPORT_RESULT = 1;
     private static final int MENU_INDEX_EXPORT_DETAILS = 2;
@@ -49,7 +49,7 @@ public class MainActivity extends Activity implements ActivityCompat.OnRequestPe
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
 
-            if (msg.what == MESSAGE_UPDATE_REALTIME) {
+            if (msg.what ==  MESSAGE_UPDATE_REALTIME) {
                 ((TextView) findViewById(R.id.textView)).setText(msg.obj.toString());
             }
 
@@ -61,8 +61,19 @@ public class MainActivity extends Activity implements ActivityCompat.OnRequestPe
                 toolbar.getMenu().getItem(MENU_INDEX_EXPORT_RESULT).setVisible(true);
                 toolbar.getMenu().getItem(MENU_INDEX_EXPORT_DETAILS).setVisible(true);
             }
+
+            if (msg.what == MESSAGE_CAMERA_NOT_AVAILABLE) {
+                Log.println(Log.WARN, "camera", msg.obj.toString());
+
+                ((TextView) findViewById(R.id.textView)).setText(
+                        R.string.camera_not_found
+                );
+                analyzer.stop();
+            }
         }
     };
+
+    private final CameraService cameraService = new CameraService(this, mainHandler);
 
     @Override
     protected void onResume() {
@@ -81,7 +92,11 @@ public class MainActivity extends Activity implements ActivityCompat.OnRequestPe
 
             // show warning when there is no flash
             if (!this.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)) {
-                Snackbar.make(findViewById(R.id.constraintLayout), getString(R.string.noFlashWarning), Snackbar.LENGTH_LONG);
+                Snackbar.make(
+                        findViewById(R.id.constraintLayout),
+                        getString(R.string.noFlashWarning),
+                        Snackbar.LENGTH_LONG
+                ).show();
             }
 
             cameraService.start(previewSurface);
@@ -115,7 +130,8 @@ public class MainActivity extends Activity implements ActivityCompat.OnRequestPe
                 Snackbar.make(
                         findViewById(R.id.constraintLayout),
                         getString(R.string.cameraPermissionRequired),
-                        Snackbar.LENGTH_LONG).show();
+                        Snackbar.LENGTH_LONG
+                ).show();
             }
         }
     }
