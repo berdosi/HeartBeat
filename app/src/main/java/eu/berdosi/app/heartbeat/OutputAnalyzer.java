@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.TextureView;
 
 import java.text.SimpleDateFormat;
@@ -118,6 +119,17 @@ class OutputAnalyzer {
                 CopyOnWriteArrayList<Measurement<Float>> stdValues = store.getStdValues();
 
                 // clip the interval to the first till the last one - on this interval, there were detectedValleys - 1 periods
+
+                // If the camera only provided a static image, there are no valleys in the signal.
+                // A camera not available error is shown, which is the most likely cause.
+                if (valleys.size() == 0) {
+                    mainHandler.sendMessage(Message.obtain(
+                            mainHandler,
+                            MainActivity.MESSAGE_CAMERA_NOT_AVAILABLE,
+                            "No valleys detected - there may be an issue when accessing the camera."));
+                    return;
+                }
+
                 String currentValue = String.format(
                         Locale.getDefault(),
                         activity.getResources().getQuantityString(R.plurals.measurement_output_template, detectedValleys - 1),

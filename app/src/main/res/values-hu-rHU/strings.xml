@@ -23,4 +23,5 @@
     <string name="dateFormat">yyyy-MM-dd\'T\'HH:mm:ssXXX</string>
     <string name="separator">,</string>
     <string name="row_separator">\n</string>
+    <string name="camera_not_found">A kamera nem elérhető.</string>
 </resources>
