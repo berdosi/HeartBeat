@@ -1,0 +1,3 @@
+* Translations: Chinese, Dutch, Hungarian
+* Dark mode support (default setting)
+* Fix crash when there are no camera devices available
