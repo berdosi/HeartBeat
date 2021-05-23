@@ -1,0 +1,15 @@
+Una forma sencilla de estimar el ritmo cardíaco. Por favor, no lo utilice con fines médicos.
+
+Esta utilidad funciona cubriendo el flash y la cámara del dispositivo con un dedo y esperando 10 segundos. Funciona mejor cuando la persona permanece quieta y el entorno es oscuro.
+
+El teléfono identificará el color rojo captado por la cámara, e intenta calcular la frecuencia cardíaca basándose en los sutiles cambios que detecta.
+
+Durante la medición, la aplicación muestra los resultados del cálculo actual, y muestra los datos capturados en un gráfico de líneas.
+
+Una vez completado, se muestran los siguientes detalles adicionales:
+<ul>
+<li>Valores estandarizados, junto con su marca de tiempo (los valores se escalan entre 0 y 1, y se aplica una media móvil para el suavizado)</li>.
+<li>Momentos en los que se detecta un nuevo latido.</li>.
+</ul>
+
+Estos datos pueden exportarse y compartirse con otra aplicación.
