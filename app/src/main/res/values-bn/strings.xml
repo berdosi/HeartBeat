@@ -1,16 +1,13 @@
 <resources>
     <string name="app_name">হৃদস্পন্দন</string>
     <string name="output_hint">
-        Please place your finger on the device\'s camera, covering the flash as well. After
-        10 seconds, you can export the results through the menu.
-        \n\nThis utility works by measuring the amount of red it sees through the camera, and
-        attempting to detect the fluctuations.
-        \nIt works better in a darkened room, and when the pressure on the camera is constant.
-        \nIf there are multiple cameras on your device, make sure that your finger covers the entire
-        field of view in the small viewfinder.
-        \nOnce the measurement is complete, it can be exported or repeated through the menu.
+        যন্ত্রের ক্যামেরায় তোমার আঙ্গল রাখো , আলো যাতে আঙ্গুল দিয়ে ঢাকা থাকে। ১০ সেকেন্ড পরে তালিকা থেকে ফলাফল রপ্তানি করতে পারবে।
+        \n\nক্যামেরায় লালের পরিমাপ দেখে এবং পরিবর্তন বুঝতে চেষ্টা করে, এই যন্ত্রটি কাজ করে থাকে।
+        \nঅন্ধকার ঘরে ভালো কাজ করে, আর যখন ক্যামেরায় চাপ স্থির থাকে
+        \nকয়েকটা ক্যামেরা থাকলে খেয়াল রাখো যাতে ছবির পুরোটা অংশ তোমার আঙ্গুল দিয়ে ঢাকা থাকে।
+        \nপরিমাপ করা শেষ হলে, তালিকা থেকে রপ্তানি বা আবার করা যাবে।
     </string>
-    <string name="output_header_template">Heart rate on %s</string>
+    <string name="output_header_template">%s এ হৃদস্পন্দন</string>
     <string name="output_detected_peaks_header">শনাক্তকৃত শীর্ষ:</string>
     <string name="send_output_to">ফলাফল পাঠাও:</string>
     <string name="separator">,</string>
@@ -18,15 +15,15 @@
     <string name="raw_values">পরিমাপ (সময়চিহ্ন, মান)</string>
     <string name="cameraPermissionRequired">এই অ্যাপের কাজ করতে ক্যামেরা অনুমতি লাগবে</string>
     <string name="noFlashWarning">Measurement without flash is less reliable.</string>
-    <string name="new_measurement">New Measurement</string>
-    <string name="export_result">Export Result</string>
-    <string name="export_details">Export Details</string>
+    <string name="new_measurement">নতুন পরিমাপ</string>
+    <string name="export_result">ফলাফল রপ্তানি</string>
+    <string name="export_details">বিস্তারিত তথ্য রপ্তানি</string>
     <string name="dateFormat">yyyy-MM-dd\'T\'HH:mm:ssXXX</string>
     <string name="dateFormatGranular">yyyy-MM-dd\'T\'HH:mm:ss.SSSXXX</string>
     <string name="camera_not_found">Camera not available.</string>
     <plurals name="measurement_output_template">
-        <item quantity="zero">Pulse: %2.1f (%d cycle in %2.1f seconds)</item>
-        <item quantity="one">Pulse: %2.1f (%d cycle in %2.1f seconds)</item>
-        <item quantity="other">Pulse: %2.1f (%d cycles in %2.1f seconds)</item>
+        <item quantity="zero">স্পন্দন: %2.1f (%2.1f সেকেন্ডে %d চক্র)</item>
+        <item quantity="one">স্পন্দন: %2.1f (%2.1f সেকেন্ডে %d চক্র)</item>
+        <item quantity="other">স্পন্দন: %2.1f (%2.1f সেকেন্ডে %d চক্র)</item>
     </plurals>
 </resources>
