@@ -13,3 +13,6 @@
 .externalNativeBuild
 .cxx
 app/release
+.idea/compiler.xml
+.idea/misc.xml
+.idea/runConfigurations.xml
