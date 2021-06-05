@@ -10,16 +10,12 @@
     <string name="output_header_template">%s এ হৃদস্পন্দন</string>
     <string name="output_detected_peaks_header">শনাক্তকৃত শীর্ষ:</string>
     <string name="send_output_to">ফলাফল পাঠাও:</string>
-    <string name="separator">,</string>
-    <string name="row_separator">\n</string>
     <string name="raw_values">পরিমাপ (সময়চিহ্ন, মান)</string>
     <string name="cameraPermissionRequired">এই অ্যাপের কাজ করতে ক্যামেরা অনুমতি লাগবে</string>
     <string name="noFlashWarning">Measurement without flash is less reliable.</string>
     <string name="new_measurement">নতুন পরিমাপ</string>
     <string name="export_result">ফলাফল রপ্তানি</string>
     <string name="export_details">বিস্তারিত তথ্য রপ্তানি</string>
-    <string name="dateFormat">yyyy-MM-dd\'T\'HH:mm:ssXXX</string>
-    <string name="dateFormatGranular">yyyy-MM-dd\'T\'HH:mm:ss.SSSXXX</string>
     <string name="camera_not_found">ক্যামেরা নেই।</string>
     <plurals name="measurement_output_template">
         <item quantity="zero">স্পন্দন: %2.1f (%2.1f সেকেন্ডে %d চক্র)</item>

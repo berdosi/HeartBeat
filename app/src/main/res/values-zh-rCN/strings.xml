@@ -12,16 +12,12 @@
     <string name="output_header_template">Heart rate on %s</string>
     <string name="output_detected_peaks_header">检测到的峰值:</string>
     <string name="send_output_to">将结果发送到:</string>
-    <string name="separator">,</string>
-    <string name="row_separator">\n</string>
     <string name="raw_values">测量 (时间戳、值)</string>
     <string name="cameraPermissionRequired">此应用程序需要相机权限才能工作。</string>
     <string name="noFlashWarning">没有闪光灯的测量不太可靠。</string>
     <string name="new_measurement">新的测量</string>
     <string name="export_result">导出结果</string>
     <string name="export_details">导出细节</string>
-    <string name="dateFormat">yyyy-MM-dd\'T\'HH:mm:ssXXX</string>
-    <string name="dateFormatGranular">yyyy-MM-dd\'T\'HH:mm:ss.SSSXXX</string>
     <plurals name="measurement_output_template">
         <item quantity="zero">Pulse: %2.1f (%d cycle in %2.1f seconds)</item>
         <item quantity="one">Pulse: %2.1f (%d cycle in %2.1f seconds)</item>
