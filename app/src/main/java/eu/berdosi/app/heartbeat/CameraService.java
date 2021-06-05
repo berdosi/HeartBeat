@@ -62,7 +62,7 @@ class CameraService {
             // message has been sent to MainActivity, this method can return.
             if (cameraId == null) {
                 return;
-            };
+            }
 
             Objects.requireNonNull(cameraManager).openCamera(cameraId, new CameraDevice.StateCallback() {
                 @Override
