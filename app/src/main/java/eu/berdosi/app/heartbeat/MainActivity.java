@@ -38,6 +38,7 @@ public class MainActivity extends Activity implements ActivityCompat.OnRequestPe
     public static final int MESSAGE_UPDATE_FINAL = 2;
     public static final int MESSAGE_CAMERA_NOT_AVAILABLE = 3;
 
+    private static final int MENU_INDEX_NEW_MEASUREMENT = 0;
     private static final int MENU_INDEX_EXPORT_RESULT = 1;
     private static final int MENU_INDEX_EXPORT_DETAILS = 2;
 
@@ -57,9 +58,10 @@ public class MainActivity extends Activity implements ActivityCompat.OnRequestPe
                 ((EditText) findViewById(R.id.editText)).setText(msg.obj.toString());
 
                 // make sure menu items are enabled when it opens.
-                Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-                toolbar.getMenu().getItem(MENU_INDEX_EXPORT_RESULT).setVisible(true);
-                toolbar.getMenu().getItem(MENU_INDEX_EXPORT_DETAILS).setVisible(true);
+                Menu appMenu = ((Toolbar) findViewById(R.id.toolbar)).getMenu();
+                appMenu.getItem(MENU_INDEX_EXPORT_RESULT).setVisible(true);
+                appMenu.getItem(MENU_INDEX_EXPORT_DETAILS).setVisible(true);
+                appMenu.getItem(MENU_INDEX_NEW_MEASUREMENT).setVisible(true);
             }
 
             if (msg.what == MESSAGE_CAMERA_NOT_AVAILABLE) {
@@ -98,6 +100,10 @@ public class MainActivity extends Activity implements ActivityCompat.OnRequestPe
                         Snackbar.LENGTH_LONG
                 ).show();
             }
+
+            // hide the new measurement item while another one is in progress in order to wait
+            // for the previous one to finish
+            ((Toolbar) findViewById(R.id.toolbar)).getMenu().getItem(MENU_INDEX_NEW_MEASUREMENT).setVisible(false);
 
             cameraService.start(previewSurface);
             analyzer.measurePulse(cameraTextureView, cameraService);
@@ -153,6 +159,14 @@ public class MainActivity extends Activity implements ActivityCompat.OnRequestPe
         char[] empty = new char[0];
         ((EditText) findViewById(R.id.editText)).setText(empty, 0, 0);
         ((TextView) findViewById(R.id.textView)).setText(empty, 0, 0);
+
+        // hide the new measurement item while another one is in progress in order to wait
+        // for the previous one to finish
+        // Exporting results cannot be done, either, as it would read from the already cleared UI.
+        Menu appMenu = ((Toolbar) findViewById(R.id.toolbar)).getMenu();
+        appMenu.getItem(MENU_INDEX_NEW_MEASUREMENT).setVisible(false);
+        appMenu.getItem(MENU_INDEX_EXPORT_RESULT).setVisible(false);
+        appMenu.getItem(MENU_INDEX_EXPORT_DETAILS).setVisible(false);
 
         TextureView cameraTextureView = findViewById(R.id.textureView2);
         SurfaceTexture previewSurfaceTexture = cameraTextureView.getSurfaceTexture();
