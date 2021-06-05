@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.TextureView;
 
 import java.text.SimpleDateFormat;
