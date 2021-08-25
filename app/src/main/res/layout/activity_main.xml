@@ -47,14 +47,17 @@
         <TextView
             android:id="@+id/textView"
             android:layout_width="0dp"
-            android:layout_height="@dimen/camera_view_height"
+            android:layout_height="0dp"
             android:layout_marginStart="@dimen/camera_view_height"
             android:gravity="center_vertical"
             android:textAlignment="gravity"
-            android:textSize="24sp"
+            android:autoSizeTextType="uniform"
+            app:layout_constraintHeight_percent="0.08"
+            android:ellipsize="marquee"
             android:textStyle="bold"
             app:layout_constraintTop_toBottomOf="@id/graphTextureView"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/scrollview_direction"
             app:layout_constraintStart_toEndOf="@+id/textureView2" />
 
         <ScrollView
