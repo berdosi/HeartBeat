@@ -21,8 +21,8 @@
     <string name="new_measurement">New Measurement</string>
     <string name="export_result">Export Result</string>
     <string name="export_details">Export Details</string>
-    <string name="dateFormat">yyyy-MM-dd\'T\'HH:mm:ssXXX</string>
-    <string name="dateFormatGranular">yyyy-MM-dd\'T\'HH:mm:ss.SSSXXX</string>
+    <string name="dateFormat">yyyy-MM-dd\'T\'HH:mm:ssZZZZZ</string>
+    <string name="dateFormatGranular">yyyy-MM-dd\'T\'HH:mm:ss.SSSZZZZZ</string>
     <string name="camera_not_found">Camera not available.</string>
     <plurals name="measurement_output_template">
         <item quantity="zero">Pulse: %2.1f (%d cycle in %2.1f seconds)</item>

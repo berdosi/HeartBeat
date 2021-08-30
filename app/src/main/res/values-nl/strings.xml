@@ -21,8 +21,8 @@
     <string name="new_measurement">Nieuwe meting </string>
     <string name="export_result">Resultaat exporteren</string>
     <string name="export_details">Details exporteren </string>
-    <string name="dateFormat">yyyy-MM-dd\'T\'HH:mm:ssXXX</string>
-    <string name="dateFormatGranular">yyyy-MM-dd\'T\'HH:mm:ss.SSSXXX</string>
+    <string name="dateFormat">yyyy-MM-dd\'T\'HH:mm:ssZZZZZ</string>
+    <string name="dateFormatGranular">yyyy-MM-dd\'T\'HH:mm:ss.SSSZZZZZ</string>
     <plurals name="measurement_output_template">
         <item quantity="zero">Pulse: %2.1f (%d cycle in %2.1f seconds)</item>
         <item quantity="one">Pulse: %2.1f (%d cycle in %2.1f seconds)</item>

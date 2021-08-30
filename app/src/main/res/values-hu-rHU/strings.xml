@@ -19,8 +19,8 @@
     <string name="raw_values">Értékek (Időpont, Érték)</string>
     <string name="cameraPermissionRequired">Az alkalmazásnak a működéséhez hozzá kell férnie a kamerához.</string>
     <string name="noFlashWarning">Vaku nélkül a mérés kevésbé megbízható.</string>
-    <string name="dateFormatGranular">yyyy-MM-dd\'T\'HH:mm:ss.SSSXXX</string>
-    <string name="dateFormat">yyyy-MM-dd\'T\'HH:mm:ssXXX</string>
+    <string name="dateFormatGranular">yyyy-MM-dd\'T\'HH:mm:ss.SSSZZZZZ</string>
+    <string name="dateFormat">yyyy-MM-dd\'T\'HH:mm:ssZZZZZ</string>
     <string name="separator">,</string>
     <string name="row_separator">\n</string>
     <string name="camera_not_found">A kamera nem elérhető.</string>

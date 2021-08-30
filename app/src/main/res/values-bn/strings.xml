@@ -18,8 +18,8 @@
     <string name="new_measurement">নতুন পরিমাপ</string>
     <string name="export_result">ফলাফল রপ্তানি</string>
     <string name="export_details">বিস্তারিত তথ্য রপ্তানি</string>
-    <string name="dateFormat">yyyy-MM-dd\'T\'HH:mm:ssXXX</string>
-    <string name="dateFormatGranular">yyyy-MM-dd\'T\'HH:mm:ss.SSSXXX</string>
+    <string name="dateFormat">yyyy-MM-dd\'T\'HH:mm:ssZZZZZ</string>
+    <string name="dateFormatGranular">yyyy-MM-dd\'T\'HH:mm:ss.SSSZZZZZ</string>
     <string name="camera_not_found">ক্যামেরা নেই।</string>
     <plurals name="measurement_output_template">
         <item quantity="zero">স্পন্দন: %2.1f (%2.1f সেকেন্ডে %d চক্র)</item>
