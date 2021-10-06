@@ -21,6 +21,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.TextureView;
 import android.view.Surface;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -42,6 +43,11 @@ public class MainActivity extends Activity implements ActivityCompat.OnRequestPe
     private static final int MENU_INDEX_EXPORT_RESULT = 1;
     private static final int MENU_INDEX_EXPORT_DETAILS = 2;
 
+    public enum VIEW_STATE {
+        MEASUREMENT,
+        SHOW_RESULTS
+    }
+
     private boolean justShared = false;
 
     @SuppressLint("HandlerLeak")
@@ -59,9 +65,8 @@ public class MainActivity extends Activity implements ActivityCompat.OnRequestPe
 
                 // make sure menu items are enabled when it opens.
                 Menu appMenu = ((Toolbar) findViewById(R.id.toolbar)).getMenu();
-                appMenu.getItem(MENU_INDEX_EXPORT_RESULT).setVisible(true);
-                appMenu.getItem(MENU_INDEX_EXPORT_DETAILS).setVisible(true);
-                appMenu.getItem(MENU_INDEX_NEW_MEASUREMENT).setVisible(true);
+
+                setViewState(VIEW_STATE.SHOW_RESULTS);
             }
 
             if (msg.what == MESSAGE_CAMERA_NOT_AVAILABLE) {
@@ -151,7 +156,33 @@ public class MainActivity extends Activity implements ActivityCompat.OnRequestPe
         return super.onPrepareOptionsMenu(menu);
     }
 
+    public void setViewState(VIEW_STATE state) {
+        Menu appMenu = ((Toolbar) findViewById(R.id.toolbar)).getMenu();
+        switch (state) {
+            case MEASUREMENT:
+                appMenu.getItem(MENU_INDEX_NEW_MEASUREMENT).setVisible(false);
+                appMenu.getItem(MENU_INDEX_EXPORT_RESULT).setVisible(false);
+                appMenu.getItem(MENU_INDEX_EXPORT_DETAILS).setVisible(false);
+                findViewById(R.id.floatingActionButton).setVisibility(View.INVISIBLE);
+                break;
+            case SHOW_RESULTS:
+                findViewById(R.id.floatingActionButton).setVisibility(View.VISIBLE);
+                appMenu.getItem(MENU_INDEX_EXPORT_RESULT).setVisible(true);
+                appMenu.getItem(MENU_INDEX_EXPORT_DETAILS).setVisible(true);
+                appMenu.getItem(MENU_INDEX_NEW_MEASUREMENT).setVisible(true);
+                break;
+        }
+    }
+
     public void onClickNewMeasurement(MenuItem item) {
+        onClickNewMeasurement();
+    }
+
+    public void onClickNewMeasurement(View view) {
+        onClickNewMeasurement();
+    }
+
+    public void onClickNewMeasurement() {
         analyzer = new OutputAnalyzer(this, findViewById(R.id.graphTextureView), mainHandler);
 
         // clear prior results
@@ -162,10 +193,7 @@ public class MainActivity extends Activity implements ActivityCompat.OnRequestPe
         // hide the new measurement item while another one is in progress in order to wait
         // for the previous one to finish
         // Exporting results cannot be done, either, as it would read from the already cleared UI.
-        Menu appMenu = ((Toolbar) findViewById(R.id.toolbar)).getMenu();
-        appMenu.getItem(MENU_INDEX_NEW_MEASUREMENT).setVisible(false);
-        appMenu.getItem(MENU_INDEX_EXPORT_RESULT).setVisible(false);
-        appMenu.getItem(MENU_INDEX_EXPORT_DETAILS).setVisible(false);
+        setViewState(VIEW_STATE.MEASUREMENT);
 
         TextureView cameraTextureView = findViewById(R.id.textureView2);
         SurfaceTexture previewSurfaceTexture = cameraTextureView.getSurfaceTexture();

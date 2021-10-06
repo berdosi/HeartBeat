@@ -7,13 +7,14 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.TextureView;
+import android.view.View;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 class OutputAnalyzer {
-    private final Activity activity;
+    private final MainActivity activity;
 
     private final ChartDrawer chartDrawer;
 
@@ -32,7 +33,7 @@ class OutputAnalyzer {
 
     private final Handler mainHandler;
 
-    OutputAnalyzer(Activity activity, TextureView graphTextureView, Handler mainHandler) {
+    OutputAnalyzer(MainActivity activity, TextureView graphTextureView, Handler mainHandler) {
         this.activity = activity;
         this.chartDrawer = new ChartDrawer(graphTextureView);
         this.mainHandler = mainHandler;
@@ -193,6 +194,7 @@ class OutputAnalyzer {
             }
         };
 
+        activity.setViewState(MainActivity.VIEW_STATE.MEASUREMENT);
         timer.start();
     }
 
