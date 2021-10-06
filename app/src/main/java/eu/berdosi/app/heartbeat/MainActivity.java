@@ -21,6 +21,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.TextureView;
 import android.view.Surface;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -152,6 +153,14 @@ public class MainActivity extends Activity implements ActivityCompat.OnRequestPe
     }
 
     public void onClickNewMeasurement(MenuItem item) {
+        onClickNewMeasurement();
+    }
+
+    public void onClickNewMeasurement(View view) {
+        onClickNewMeasurement();
+    }
+
+    public void onClickNewMeasurement() {
         analyzer = new OutputAnalyzer(this, findViewById(R.id.graphTextureView), mainHandler);
 
         // clear prior results
@@ -178,7 +187,6 @@ public class MainActivity extends Activity implements ActivityCompat.OnRequestPe
             analyzer.measurePulse(cameraTextureView, cameraService);
         }
     }
-
     public void onClickExportResult(MenuItem item) {
         final Intent intent = getTextIntent((String) ((TextView) findViewById(R.id.textView)).getText());
         justShared = true;
