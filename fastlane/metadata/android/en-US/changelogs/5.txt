@@ -1,0 +1,5 @@
+* Spanish translation - thanks @sguinetti!
+* Bengali translation - thanks @Oymate!
+* Tooling update - thanks @carldea!
+* New measurement button on main screen
+* Bugfixes - thanks @dreamsyntax, @yuhuitech!
